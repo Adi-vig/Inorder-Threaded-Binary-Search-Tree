@@ -79,15 +79,6 @@ struct node* insert(struct  node* head , int key){
     }
 
     return head;
-
-    // struct node* cur = head;
-
-    // while(key < cur->key){
-    //     while(cur->lbit)cur
-    // }
-
-
-
 }
 
 
@@ -236,164 +227,6 @@ void postorder(struct node* head)
 
 
 
-    //             10
-    //    5                    15
-    //  3   8            13           20
-    //               12     14          22
-
-
-
-
-// struct node* delLeaf(struct node* root, int key , int dir){
-//     // delete leaf node.
-//     struct node* parent;
-
-//     // if the root(node to delete) is left child then dir=0
-//     if(dir == 0){
-//         parent = root->right;
-//         parent->left = root->left;      //inorder predecessor of root(lead) to be deleted...... reconnect thread
-//         parent ->lbit=0;                // break normal link and connect thread
-//         free(root);
-//         return parent;
-//     }
-
-//     // if the root(node to delete) is right child then dir=0
-//     else if(dir == 1){
-//         parent = root->left;        
-//         parent->right = root->right;    //inorder succesor of root(lead) to be deleted..... reconnect thread
-//         parent ->rbit=0;                // break normal link and connect thread
-//         free(root);
-        
-//         return parent;
-//     }
-
-// }
-
-
-// struct node* delOneChild(struct node* root, struct node* key , int dir){
-//     // root is the node to delete.
-
-// }
-
-
-
-
-
-
-// dir= direction
-
-// first direction is left i.e. 0
-
-// struct node* delete(struct node* root, int key){
-//     struct node* temp ;
-
-//     if(root==NULL){
-//         printf("\nKey cannot be deleted!");
-//     }
-//     else if (key < root->val){
-//         // go left then dir = 0
-//         root->left = delete(root->left , key);
-//     }
-//     else if (key > root->val){
-//         root->right= delete(root->right , key);
-//     }
-//     //node found
-//     else{
-
-//             printf("\nNode found Delete call to %d %d", root->val, dir );
-
-//         if(root->lbit==0 && root->rbit==0)
-//         root = delLeaf(root, key, dir);
-
-
-//         // if(root->lbit==1 && root->rbit==1){
-//         //     temp = inorderSuccessor(root);
-//         //     root->val = temp->val;
-//         //     root->left = delete(root->left , temp->val);
-//         // }
-
-//         // else {
-//         //     temp= root;
-//         //     if(root->rbit==0){
-//         //         root=root->left;
-//         //     }
-//         }
-        
-//     }
-
-
-
-
-
-
-
-
-
-
-    //             10
-    //    5                    15
-    //  3   8            13           20
-    //               12     14          22
-
-
-
-
-// sturct node* deletjje(sturct node* root ,int key){
-//     sturct node *temp; 
-//     if(root==NULL){
-//         printf("Tree is empty.. key cannot be deleted\n");
-//     }
-//     else if(key < root->val){
-//         root->left = delete(root->left, key);
-//     }
-//     else if(key > root->val){
-//         root->right = delete(root->right, key);
-//     }
-//     // node found
-//     else{
-//         // printf("\nNode found Delete call to %d", root->val);
-//         if(root->left && root->right){
-//             temp = findMax(root->left);
-//             root->val = temp->val;
-//             root->left = delete(root->left, temp->val);
-//         }
-//         else{
-//             {
-//                 temp = root;
-//                 if(root->right==NULL) root = root->left;
-//                 else root = root->right;
-//                 free(temp);
-//             }
-//         }
-//     }
-//     return root;
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -509,16 +342,6 @@ struct node* delOneChild(struct node* head, struct node* par, struct node* ptr){
     struct node* p= inorderPredecessor(ptr);
     struct node* s= inorderSuccessor(ptr);
 
-    // printf("here head left=%d ptr = %d ,,, par = %d , child = %d\n",head->left->val, ptr->val, par->val , child->val);
-
-
-    //if node to be deleted is root node
-    // if(ptr == head->left){
-        
-    //     ptr= child;
-    // }
-
-
     //ptr is left child of par
     // else if()
     if(ptr == par->left){
@@ -529,13 +352,6 @@ struct node* delOneChild(struct node* head, struct node* par, struct node* ptr){
         par->right = child;
     }
 
-
-
-    
-    // printf("here p = %d ,,, s = %d \n", p->val, s->val);
-
-
-
     // if ptr has left subtree 
     if(ptr->lbit ==1)
         p->right = s;
@@ -545,8 +361,6 @@ struct node* delOneChild(struct node* head, struct node* par, struct node* ptr){
     else if(ptr->rbit ==1)
         s->left =p;
 
-    
-    // printf("\nptr= %d\n\n\n", ptr->val);
     free(ptr);
 
     return head;
@@ -554,15 +368,6 @@ struct node* delOneChild(struct node* head, struct node* par, struct node* ptr){
 
 
 }
-
-
-
-
-    //             10
-    //    5                    15
-    //  3   8            13           20
-    //               12     14          22
-
 
 
 
@@ -590,27 +395,8 @@ struct node* delNoChild (struct node* head, struct node* par, struct node* ptr){
 
 }
 
-
-
-
-    //             10
-    //    5                    15
-    //  3   8            13           20
-    //               12     14           22
-
-
-
-
-
-
-
-
-
 int main(){
-    // struct node* root;
-    // root = malloc(sizeof(struct node));
 
-    
     struct node* head;
     head = (struct node*)malloc(sizeof(struct node));
     // head->val = -1;
@@ -618,24 +404,6 @@ int main(){
     head->rbit= 1;     //convention for all cases
     head->right=head; //convention for all cases
     head->left=head;  //head->left should point to root 
-
-
-
-
-
-
-    // either consider head node and point the 
-        // (first node in inorder/ leftmost node)->left = head 
-        // (last node in inorder/ rightmost node)->right= head
-
-    // else 
-        // (first node in inorder/ leftmost node)->left = NULL 
-        // (last node in inorder/ rightmost node)->right= NULL 
-
-
-
-
-// rn doing the else part
 
 
 
