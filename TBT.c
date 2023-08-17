@@ -1,18 +1,138 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+// #include<GL\glut.h>
+
+// Menu Driven Program with implementation of BST and all the fuctions
+    // Insert
+    // Traversal(both without using stack)
+        // preorder
+        // inorder
+    // Delete
+    // Exit Program
 
 struct node{
     int val;
-    int lbit;
-    int rbit;
+    bool lbit;
+    bool rbit;
 
     struct node* left;
     struct node* right;
 
 };
 
-// struct node* head;  
+struct node* getNode(int val);
+struct node* insert(struct  node* head , int key);
+
+struct node* inorderPredecessor(struct node* p);
+struct node* inorderSuccessor(struct node*p);
+
+void Traversal(struct node* head);
+void inorder(struct node* head);
+void preorder(struct node* head);
+
+struct node* findParent(struct node* p);
+struct node* postSuccessor(struct node* p);
+void postorder(struct node* head);
+
+// ********************************* DELETE ********************************
+struct node* delThreadedBST(struct node* head, int key);
+struct node* delTwoChild(struct node* head, struct node* par, struct node* ptr);
+struct node* delOneChild(struct node* head, struct node* par, struct node* ptr);
+struct node* delNoChild (struct node* head, struct node* par, struct node* ptr);
+
+
+
+
+int main(){
+    struct node* head;
+    head = (struct node*)malloc(sizeof(struct node));
+    head->lbit= 0; 
+    head->rbit= 1;     //convention for all cases
+    head->right=head; //convention for all cases
+    head->left=head;  //head->left should point to root 
+
+    
+    // uncomment the following to create a sample tree like
+
+    insert(head,10);
+    insert(head,5);
+    insert(head,15);
+    insert(head,20);
+    insert(head,13);
+    insert(head,14);
+    insert(head,12);
+    insert(head,8);
+    insert(head,3);
+    insert(head, 21);
+    insert(head, 22);
+    insert(head, 30);
+
+    //will create a tree like this
+    //             10
+    //    5                    15
+    //  3   8            13           20
+    //               12     14           21
+    //                                     22
+    //                                       30
+    //or use menu driven approach
+
+	
+    while(1){
+        printf("\n\n\n\n****************************************************************");
+        printf("\nSelect operation");
+
+        printf("\n\t1.Insert\n\t2.Traverse(pre in)\n\t3.Delete\n\n\t0.Exit\n\nEnter your choice: ");
+        int n;
+        scanf("%d",&n);
+        int temp;
+        // system("cls");
+
+        switch(n){
+            case 1:
+                {
+                    printf("\nEnter number to Insert: ");
+                    scanf("%d",&temp);
+                    head = insert(head,temp);
+                }
+            break;
+
+            
+            case 2:
+                Traversal(head);
+            break;
+
+            case 3:
+                {
+                    printf("\nEnter number to Delete: ");
+                    scanf("%d",&temp);
+                    delThreadedBST(head, temp);
+
+                }
+            break;
+
+            case 0:
+                exit(0);
+            break;
+
+            default:
+                printf("invalid Choixe.");
+            break;
+        }
+    }
+
+    return 0;
+}
+
+    //             10
+    //    5                    15
+    //  3   8            13           20
+    //               12     14           21
+    //                                      22
+    //                                        30
+
+
+
 
 struct node* getNode(int val){
     struct node* temp= (struct node*)malloc(sizeof(struct node));
@@ -24,12 +144,10 @@ struct node* getNode(int val){
     return temp;
 }
 
+
 struct node* insert(struct  node* head , int key){
     struct node* temp = getNode(key);
-
     struct node* p;
-
-
 
     if(head->left == head) {
         head->left = temp;
@@ -38,11 +156,9 @@ struct node* insert(struct  node* head , int key){
         return head;
     }
 
-    // p=head;
-    p= head->left;   //idk mostlyyyyy
+    p= head->left;   
 
     while(1){
-        // printf("adf");
         if(key < p->val && p->lbit==1)
             p=p->left;
         
@@ -55,12 +171,8 @@ struct node* insert(struct  node* head , int key){
     if(key < p->val )
     {
         p->lbit = 1;
-        // rearrange the thread before linking new node
-        temp->left = p->left;       //inorder predecessor (previous)
-        // thread again 
-        temp->right = p;            //inorder successor (next)
-
-        // linking new node
+        temp->left = p->left;            
+        temp->right = p;      
         p->left = temp;       
 
     }
@@ -68,29 +180,15 @@ struct node* insert(struct  node* head , int key){
     else if( key > p->val )
     {
         p->rbit = 1;
-
         // rearrange the thread after linking new node
         temp->right = p->right;     //inorder successor (next)
-        temp->left = p;             //inorder predecessor (previous)
-
-        // link the new node
+        temp->left = p;             
         p->right = temp;
         
     }
 
     return head;
 }
-
-
-
-    //             10
-    //    5                    15
-    //  3   8            13           20
-    //               12     14          22
-
-
-
-
 
 struct node* inorderPredecessor(struct node* p){
     if(p->lbit==0)return p->left;
@@ -100,11 +198,6 @@ struct node* inorderPredecessor(struct node* p){
     }
     return p;
 }
-
-
-
-
-
 
 struct node* inorderSuccessor(struct node*p){
     if(p->rbit==0)return p->right;
@@ -117,26 +210,17 @@ struct node* inorderSuccessor(struct node*p){
 }
 
 
-
 void inorder(struct node* head){
     struct node* p;
     p=head->left;
     while(p->lbit==1)p=p->left;
 
     while(p!=head){
-        // printf("currotn p = %d\n", p->val);
         printf(" %d", p->val);
         p=inorderSuccessor(p);
 
     }
 }
-
-
-
-
-
-
-
 
 void preorder(struct node* head){
     struct node* p;
@@ -151,12 +235,10 @@ void preorder(struct node* head){
         else if(p->rbit==1){
             p=p->right;
         }
-        // p is leaf
         else if(p->rbit==0){
             while(p->rbit==0)p=p->right;
             p=p->right;
         }
-        
     }    
 }
 
@@ -228,215 +310,140 @@ void postorder(struct node* head)
 
 
 
+void Traversal(struct node* head){
+    printf("\nTraversal Type : \n1.preorder\n2.Inorder\n3.PostOrder\n\n\nEnter your choice: ");
+    int n;
+    scanf("%d",&n);
+    // system("cls");
+    switch (n)
+    {
+        case 1:
+            printf("\nPreorder:\n\t");
+            preorder(head);
+            break;
+            
+        
+        case 2:
+            printf("\nInorder:\n\t");
+            inorder(head);
+            break;
+        
+        case 3:
+            printf("\nPostorder:\n\t");
+            postorder(head);
+            break;
+        
+        default:
+            break;
+    }
+}
 
 
 // ********************************* DELETE ********************************
 
-struct node* delTwoChild(struct node* head, struct node* par, struct node* ptr);
-struct node* delOneChild(struct node* head, struct node* par, struct node* ptr);
-struct node* delNoChild (struct node* head, struct node* par, struct node* ptr);
-
-
-
-// Deletes a key from threaded BST with given root and
-// returns new root of BST.
 struct node* delThreadedBST(struct node* head, int key)
 {
-	// Initialize parent as NULL and ptrent
-	// node as root.
-	struct node *par = head, *ptr = head->left;
 
-    //ptr is child and par is parent 
+    struct node *par = head, *ptr = head->left;
 
-	// Set true if key is found
-	bool found = 0;
+    bool found = 0;
 
-	// Search key in BST : find Node and its
-	// parent.
-	while (ptr != head) {
-		if (key == ptr->val) {
-			found = 1;
-			break;
-		}
-		par = ptr;
-		if (key < ptr->val) {
-			if (ptr->lbit == 1)
-				ptr = ptr->left;
-			else
-				break;
-		}
-		else {
-			if (ptr->rbit == 1)
-				ptr = ptr->right;
-			else
-				break;
-		}
-	}
+    while (ptr != head) {
+        if (key == ptr->val) {
+            found = 1;
+            break;
+        }
+        par = ptr;
+        if (key < ptr->val) {
+            if (ptr->lbit == 1)
+                ptr = ptr->left;
+            else
+                break;
+        }
+        else {
+            if (ptr->rbit == 1)
+                ptr = ptr->right;
+            else
+                break;
+        }
+    }
 
-	if (found == 0)
-		printf("key not present in tree\n");
+    if (found == 0)
+        printf("key not present in tree\n");
 
-	// Two Children
-	else if (ptr->lbit == 1 && ptr->rbit == 1)
-		head = delTwoChild(head, par, ptr);
+    else if (ptr->lbit == 1 && ptr->rbit == 1)
+        head = delTwoChild(head, par, ptr);
 
-    // No children
     else if(ptr->lbit == 0 && ptr->rbit == 0)
         head = delNoChild(head, par, ptr);
 
-	// One child
     else 
         head = delOneChild(head, par, ptr);
     
-
-	return head;
+    return head;
 }
 
 
 
-
-
-
-
 struct node* delTwoChild(struct node* head, struct node* par, struct node* ptr){
-    // find inorder successor of ptr and its parent 
+
     struct node* parSuc = ptr; 
     struct node* suc = ptr->right;
 
-    //leftmost child of right subtree of ptr 
     while(suc->lbit==1){
         parSuc=suc;
         suc = suc->left;
     }
 
-
-    //replace key 
     ptr->val = suc->val;
 
-    //calling delete to successor node
-    //inorder successor will have only 2 cases (no child / one child)
-
-    //No child
     if(suc->lbit==0 && suc->rbit==0)
         head = delNoChild(head , parSuc , suc);
 
-    // only one child to inorder successor
     else        
         head = delOneChild(head, parSuc , suc);
     
-    
     return head;
-
 }
-
 
 
 struct node* delOneChild(struct node* head, struct node* par, struct node* ptr){
 
-    //set child of ptr (node to be deleted)
     struct node* child;
     if(ptr->lbit==1)child = ptr->left;
     else child = ptr->right;
 
-
     struct node* p= inorderPredecessor(ptr);
     struct node* s= inorderSuccessor(ptr);
 
-    //ptr is left child of par
-    // else if()
     if(ptr == par->left){
         par->left = child;
     }
-    //ptr is right child of par
     else {
         par->right = child;
     }
 
-    // if ptr has left subtree 
     if(ptr->lbit ==1)
         p->right = s;
 
-    
-    //if ptr has right subtree
     else if(ptr->rbit ==1)
         s->left =p;
 
     free(ptr);
-
     return head;
-
-
-
 }
-
-
-
-
 struct node* delNoChild (struct node* head, struct node* par, struct node* ptr){
-    //if root is to be deleted and it has no children
-    if(ptr == head->left){          // or par == head
+    if(ptr == head->left){          
         ptr = NULL;
-        // return head;
     }
-
-    // ptr is left child of par
     else if(ptr == par->left){
         par->lbit=0;
-        par->left = ptr->left;  // reconnect thread to inorder predecessor (previous )
+        par->left = ptr->left;  
     }
-
-    // ptr is right child of par
     else if(ptr == par->right){
         par->rbit = 0;
         par->right = ptr->right;
     }
     free(ptr);
     return head;
-
 }
-
-int main(){
-
-    struct node* head;
-    head = (struct node*)malloc(sizeof(struct node));
-    // head->val = -1;
-    head->lbit= 0; 
-    head->rbit= 1;     //convention for all cases
-    head->right=head; //convention for all cases
-    head->left=head;  //head->left should point to root 
-
-
-
-
-    insert(head,10);
-    insert(head,5);
-    insert(head,15);
-    insert(head,20);
-    insert(head,13);
-    insert(head,14);
-    insert(head,12);
-    insert(head,8);
-    insert(head,3);
-    insert(head, 22);
-    insert(head, 21);
-    
-    
-    inorder(head);
-    printf("\n********************************\n");
-    // preorder(head);
-    printf("\n********************************\n");
-    // postorder(head);         // there is no postorder here
-
-    // head = delThreadedBST(head, 20);
-    inorder(head);
-    printf("\n********************************\n");
-    postorder(head); 
-
-    return 0;
-}
-
- //             10
-    //    5                    15
-    //  3   8            13           20
-    //               12     14           22
-    //                                21                                   
