@@ -56,18 +56,18 @@ int main(){
     
     // uncomment the following to create a sample tree like
 
-    insert(head,10);
-    insert(head,5);
-    insert(head,15);
-    insert(head,20);
-    insert(head,13);
-    insert(head,14);
-    insert(head,12);
-    insert(head,8);
-    insert(head,3);
-    insert(head, 21);
-    insert(head, 22);
-    insert(head, 30);
+    // insert(head,10);
+    // insert(head,5);
+    // insert(head,15);
+    // insert(head,20);
+    // insert(head,13);
+    // insert(head,14);
+    // insert(head,12);
+    // insert(head,8);
+    // insert(head,3);
+    // insert(head, 21);
+    // insert(head, 22);
+    // insert(head, 30);
 
     //will create a tree like this
     //             10
