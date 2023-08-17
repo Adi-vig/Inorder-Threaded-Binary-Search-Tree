@@ -8,6 +8,7 @@
     // Traversal(both without using stack)
         // preorder
         // inorder
+	// postorder
     // Delete
     // Exit Program
 
